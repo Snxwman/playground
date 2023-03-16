@@ -1,0 +1,29 @@
+#!/usr/bin/bash
+
+# Completes all steps for LFS chapter 3.
+# 1. Verifies that the $LFS variable is set, or sets it.
+# 2. Verifies that $LFS/sources directory exists, or creates it.
+# 3. Sets the proper permissions and sticky bit for $LFS/sources.
+# 4. Downloads all sources, in parallel.
+# 5. Checks the md5 sums for the downloaded sources.
+#        - Colorizes the output: green for "Ok", red for "FAILED".
+# 6. Sets all sources to be owned by root user and group.
+
+# Exporting environment variable in a script like this is almost always bad. However, the $LFS variable is such a key 
+# component of LFS that it not being set can almost always be considered an error. Thus, exporting the variable, if it 
+# is not already set, is appropriate in this scenario.
+[[ $LFS = "/mnt/lfs" ]] || export LFS="/mnt/lfs"
+
+[[ -d $LFS/sources ]] || sudo mkdir --verbose --parents $LFS/sources 
+sudo chmod --verbose a+wt $LFS/sources
+
+# The LFS book provides a wget command to download sources from the provided wget-list-sysv file. 
+# I use curl for its parallel download syntax, but you also NEED the lfs-sources.curl file (wget-list-sysv will not work).
+# Curl defaults to 50 parallel connections. There are 88 sources required by $LFS. I use 100 simply as a nice round number.
+curl --parallel --parallel-max 100 --location --config files/lfs-sources.curl --output-dir $LFS/sources
+
+pushd $LFS/sources 
+md5sum -c md5sums | sed -e s/OK/\\x1b[92mOK\\x1b[0m/g -e s/FAILED/\\x1b[91mFAILED\\x1b[0m/g 
+popd
+
+sudo chown root:root $LFS/sources/*
