@@ -1,0 +1,21 @@
+#!/usr/bin/bash
+
+sudo groupadd lfs
+
+PASSWORD="lfs"
+
+sudo useradd \
+    --shell /bin/bash \
+    --groups sudo lfs \
+    --create-home --skel /dev/null \
+    --password $(openssl passwd -1 $PASSWORD) \
+    lfs
+
+[[ $LFS = "/mnt/lfs" ]] || export LFS="/mnt/lfs"
+
+sudo chown -v lfs $LFS/{usr{,/*},lib,var,etc,bin,sbin,tools}
+
+case $(uname -m) in
+    x86_64) sudo chown -v lfs $LFS/lib64 ;;
+esac
+
