@@ -10,7 +10,7 @@ A collection of scripts and files for use in completing and automating LFS.
 Some scripts simply automate the exact tasks as specified in the book, some make cosmetic changes (e.g. colorizing outputs),
 some change the method that certain tasks are completed by (e.g. parallellization), and some do a mix of these things.
 
-All files provided in the LFS book are provided *as is* in the `provided`(provided/) directory.
+All files provided in the LFS book are provided *as is* in the [`provided`](provided/) directory.
 Files with the same name in the root of the repository are my personal adaptations of provided files.
 
 
