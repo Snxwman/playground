@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://bdrslq43734lp"]
+
+[ext_resource type="Script" path="res://Items/item_data.gd" id="1_csqim"]
+[ext_resource type="Texture2D" uid="uid://bj1ub8h0kx4tn" path="res://Assets/Item/grenade.webp" id="1_kem4k"]
+
+[resource]
+script = ExtResource("1_csqim")
+icon = ExtResource("1_kem4k")
+item_id = "grenade"
+item_type = 0
+long_name = "F-1 hand grenade"
+short_name = "F-1"
+description = ""
+weight = 21
+base_trade_value = 8500
+slot_geometry = Vector2(1, 1)
+has_internal_storage = false
+internal_slot_geometry = Vector2(1, 1)
+stackable = true
+max_stack_size = 3
+default_stack_size = 1
+has_durability = false
+max_durability = 100
+default_durability = 100
+med_durability = 0
+low_durability = 0
+has_capacity = false
+max_capacity = 1
+default_capacity = 1
+med_capacity = 0
+low_capacity = 0

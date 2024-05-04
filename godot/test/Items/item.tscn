@@ -1,0 +1,164 @@
+[gd_scene load_steps=7 format=3 uid="uid://jh25gw6smipi"]
+
+[ext_resource type="Script" path="res://Items/item.gd" id="1_tiery"]
+[ext_resource type="Texture2D" uid="uid://bj1ub8h0kx4tn" path="res://Assets/Item/grenade.webp" id="2_apblc"]
+[ext_resource type="Texture2D" uid="uid://dasaxjaymuhdm" path="res://Assets/insured.png" id="3_sy7rg"]
+[ext_resource type="Texture2D" uid="uid://5j6gtrfvfxot" path="res://Assets/check.png" id="4_txoht"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mq2f4"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.14, 0.14, 0.14, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_22xk0"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.86, 0.530333, 0, 1)
+
+[node name="Item" type="Node2D"]
+script = ExtResource("1_tiery")
+
+[node name="Interior" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(60, 60)
+offset_right = 62.0
+offset_bottom = 62.0
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 1
+theme_override_constants/margin_right = 1
+theme_override_constants/margin_bottom = 1
+
+[node name="ItemBackground" type="ColorRect" parent="Interior"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+color = Color(0.25, 0.25, 0.25, 0.588235)
+
+[node name="UnequippableFilter" type="ColorRect" parent="Interior"]
+layout_mode = 2
+color = Color(0.5, 0, 0, 0.333333)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Interior"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="DurabilityBar" type="ProgressBar" parent="Interior/HBoxContainer"]
+custom_minimum_size = Vector2(4, 60)
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxFlat_mq2f4")
+theme_override_styles/fill = SubResource("StyleBoxFlat_22xk0")
+max_value = 1000.0
+step = 1.0
+value = 729.0
+fill_mode = 3
+show_percentage = false
+
+[node name="ItemDetails" type="Control" parent="Interior/HBoxContainer"]
+custom_minimum_size = Vector2(56, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ItemIconMargin" type="MarginContainer" parent="Interior/HBoxContainer/ItemDetails"]
+custom_minimum_size = Vector2(56, 60)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Icon" type="TextureRect" parent="Interior/HBoxContainer/ItemDetails/ItemIconMargin"]
+layout_mode = 2
+texture = ExtResource("2_apblc")
+expand_mode = 1
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="Interior/HBoxContainer/ItemDetails"]
+layout_mode = 1
+offset_right = 12.0
+offset_bottom = 28.0
+theme_override_constants/margin_left = 1
+theme_override_constants/margin_top = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Interior/HBoxContainer/ItemDetails/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 2
+
+[node name="InsuredIcon" type="TextureRect" parent="Interior/HBoxContainer/ItemDetails/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("3_sy7rg")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="LootedIcon" type="TextureRect" parent="Interior/HBoxContainer/ItemDetails/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(14, 14)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_txoht")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="ShortName" type="Label" parent="Interior/HBoxContainer/ItemDetails"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -18.0
+offset_bottom = 17.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 12
+text = "F-1"
+horizontal_alignment = 2
+
+[node name="TradeValue" type="Label" parent="Interior/HBoxContainer/ItemDetails"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -12.0
+offset_top = -14.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 10
+text = "$2"
+vertical_alignment = 2
+
+[node name="Capacity" type="Label" parent="Interior/HBoxContainer/ItemDetails"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -14.0
+offset_right = 39.0
+grow_vertical = 0
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 10
+text = "100/100"
+vertical_alignment = 2
+
+[node name="ItemBorder" type="ReferenceRect" parent="."]
+custom_minimum_size = Vector2(62, 62)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 62.0
+offset_bottom = 62.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.003, 1)
+border_color = Color(0.8, 0.8, 0.8, 0.901961)
+editor_only = false

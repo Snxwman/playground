@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://elvqf8brx35x"]
+
+[node name="PauseMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Paused" type="Label" parent="."]
+layout_mode = 0
+offset_top = 160.0
+offset_right = 1152.0
+offset_bottom = 211.0
+theme_type_variation = &"HeaderLarge"
+text = "Paused"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Settings" type="Button" parent="."]
+layout_mode = 0
+offset_left = 480.0
+offset_top = 260.0
+offset_right = 680.0
+offset_bottom = 310.0
+text = "Settings"
+
+[node name="Quit" type="Button" parent="."]
+layout_mode = 0
+offset_left = 480.0
+offset_top = 360.0
+offset_right = 680.0
+offset_bottom = 410.0
+text = "Quit"

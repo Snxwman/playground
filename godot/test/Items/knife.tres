@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=3 format=3 uid="uid://chmw76e3ahtfu"]
+
+[ext_resource type="Script" path="res://Items/item_data.gd" id="1_5etps"]
+[ext_resource type="Texture2D" uid="uid://b8qb2p5oba1hs" path="res://Assets/Item/knife.webp" id="1_aoeor"]
+
+[resource]
+script = ExtResource("1_5etps")
+icon = ExtResource("1_aoeor")
+item_id = "knife"
+item_type = 0
+long_name = "Bars A-2607 Damascus knife"
+short_name = "A-2607"
+description = ""
+weight = 13
+base_trade_value = 6900
+slot_geometry = Vector2(2, 1)
+has_internal_storage = false
+internal_slot_geometry = Vector2(1, 1)
+stackable = false
+max_stack_size = 1
+default_stack_size = 1
+has_durability = true
+max_durability = 100
+default_durability = 100
+med_durability = 20
+low_durability = 10
+has_capacity = false
+max_capacity = 1
+default_capacity = 1
+med_capacity = 0
+low_capacity = 0
