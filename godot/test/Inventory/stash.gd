@@ -6,7 +6,8 @@ const STASH_GEOMETRY: Vector2 = Vector2(STASH_WIDTH, STASH_LINES)
 const SLOT_SIZE_PX = 64
 
 # DEBUG
-const items = ["backpack", "bullet", "grenade", "helmet", "knife", "plate_carrier", "rifle"]
+#const items = ["backpack", "bullet", "grenade", "helmet", "knife", "plate_carrier", "rifle"]
+const items = ["backpack", "plate_carrier"]
 
 @onready var slotgrid_scene = preload("res://Inventory/slotgrid.tscn")
 @onready var item_scene = preload("res://Items/item.tscn")

@@ -10,6 +10,7 @@ const DEFAULT_BORDER_COLOR = Color("#cccccc", 0.9)
 const BORDER_OFFSET = 2
 
 @onready var slotgrid_scene = preload("res://Inventory/slotgrid.tscn")
+@onready var subinventory_container_scene = preload("res://Inventory/internal_inventory.tscn")
 
 # Item ui components
 @onready var item_interior = $Interior
@@ -18,6 +19,7 @@ const BORDER_OFFSET = 2
 @onready var unequippable_filter = $Interior/UnequippableFilter
 @onready var item_icon = $Interior/HBoxContainer/ItemDetails/ItemIconMargin/Icon
 @onready var special_icon_container = $Interior/HBoxContainer/ItemDetails/MarginContainer
+@onready var subinventory_container = $SubinventoryContainer
 # Item stats
 @onready var durability_bar = $Interior/HBoxContainer/DurabilityBar
 @onready var short_name_label = $Interior/HBoxContainer/ItemDetails/ShortName
@@ -44,6 +46,8 @@ var selected = false
 var rotated = false
 var equippable = true
 var occupied_slots = []
+var subinventory_open = false
+var item_info_open = false
 
 # Called when the node enters the scene tree for the first time.
 #func _ready():
@@ -54,6 +58,9 @@ var occupied_slots = []
 func _input(event):
 	if event.is_action_pressed("rotate") and selected:
 		rotate_scene()
+	
+	if Input.is_action_just_pressed("close_window"):
+		close_subinventory()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -68,7 +75,8 @@ func spawn(item_resource_id: String):
 	capacity = item_resource_data.default_capacity
 	trade_value = calculate_trade_value()
 	
-	scene_setup()
+	setup_scene()
+	connect("subinventory_closed", close_subinventory)
 
 func spawn_with_random_stats(item_resource_id: String):
 	item_resource_data = load("res://Items/" + item_resource_id + ".tres")
@@ -79,12 +87,12 @@ func spawn_with_random_stats(item_resource_id: String):
 	capacity = randi_range(0, item_resource_data.max_capacity)
 	trade_value = calculate_trade_value()
 	
-	scene_setup()
+	setup_scene()
 
 func load_from_save():
 	pass
 		
-func scene_setup():
+func setup_scene():
 	var item_size = Vector2(get_slot_width() * SLOT_SIZE_PX, get_slot_height() * SLOT_SIZE_PX)
 	
 	item_interior.size = item_size - Vector2(BORDER_OFFSET, BORDER_OFFSET)
@@ -206,7 +214,16 @@ func calculate_trade_value():
 	return int(calculated_trade_value / 100)
 	
 func open_subinventory():
-	if item_resource_data.has_internal_storage:
-		var slotgrid = slotgrid_scene.instantiate()
-		add_child(slotgrid)
-		slotgrid.create_slotgrid(item_resource_data.internal_slot_geometry)
+	if not item_resource_data.has_internal_storage:
+		return
+	
+	if subinventory_container.get_child_count() != 0:  # Scene has already been instantiated and setup 
+		subinventory_container.visible = true
+	else:
+		var subinventory = subinventory_container_scene.instantiate()
+		subinventory_container.add_child(subinventory)
+		subinventory.setup_scene(self)
+		subinventory.close_subinventory.connect(close_subinventory)
+		
+func close_subinventory():
+	subinventory_container.visible = false

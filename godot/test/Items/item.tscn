@@ -162,3 +162,9 @@ grow_vertical = 2
 scale = Vector2(1.003, 1)
 border_color = Color(0.8, 0.8, 0.8, 0.901961)
 editor_only = false
+
+[node name="SubinventoryContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0

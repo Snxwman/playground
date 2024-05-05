@@ -33,6 +33,7 @@ func _input(event):
 		if hovered_slot:
 			place_item() if item_held else pick_item()
 	elif Input.is_action_just_pressed("open_subinventory"):
+		print(str(hovered_item))
 		if hovered_item != null:
 			hovered_item.open_subinventory()
 	
@@ -111,7 +112,32 @@ func create_slot(col, row):
 	slot.slotgrid_location = Vector2(col, row)
 	
 	return slot
-	
+
+# TODO: finish
+func add_space_to_slotgrid(new_space: Vector2i):
+	# new_space is an int vector denoting the number of (columns, rows) to add to the slotgrid.
+	if new_space[0] < 1 or new_space[1] < 1:
+		return
+		
+	if new_space[0] == 0:
+		add_rows_to_slotgrid(new_space[1])
+	elif new_space[1] == 0:
+		add_columns_to_slotgrid(new_space[0])
+	else:
+		pass
+
+# TODO: finish
+func add_rows_to_slotgrid(rows: int):
+	for row in range(0, rows):
+		for col in range(0, slotgrid_width):
+			var slot = create_slot(col, row)
+
+# TODO: finish	
+func add_columns_to_slotgrid(cols: int):
+	for row in range(0, slotgrid_height):
+		for col in range(0, cols):
+			var slot = create_slot(col, row)
+
 func redraw_highlights():
 	# Reset the entire slotgrid
 	for slot in slotgrid_container.get_children().filter(func(child): return true if child is Slot else false):
@@ -155,6 +181,7 @@ func item_can_fit():
 				return false
 			elif slot.current_stack_size == slot.item_stored.item_resource_data.max_stack_size:
 				return false
+			# BUG: needs a check that item can stack before eveluating stack size
 			elif slot.current_stack_size + item_held.current_stack_size > slot.item_stored.item_resource_data.max_stack_size:
 				return false
 	return true

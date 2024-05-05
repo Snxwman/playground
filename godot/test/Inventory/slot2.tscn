@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://dq0h0p7ibxai"]
+
+[ext_resource type="Script" path="res://Inventory/slot.gd" id="1_fyn82"]
+
+[node name="Slot" type="Control"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_fyn82")
+
+[node name="ReferenceRect" type="ReferenceRect" parent="."]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+border_color = Color(0.141176, 0.141176, 0.141176, 1)
+editor_only = false
+
+[node name="SlotBackground" type="ColorRect" parent="."]
+custom_minimum_size = Vector2(62, 62)
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 63.0
+offset_bottom = 63.0
+color = Color(0.07, 0.07, 0.07, 1)
+
+[node name="SlotHighlight" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 64.0
+offset_bottom = 64.0
+color = Color(1, 1, 1, 0)
