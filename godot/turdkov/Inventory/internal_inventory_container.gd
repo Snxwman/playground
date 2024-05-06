@@ -3,7 +3,7 @@ class_name InternalInventoryContainer extends Control
 signal close_subinventory()
 
 const MAX_SCROLL_CONTAINTER_ROWS = 8
-const MAX_SCROLL_CONTAINTER_COLS = 6
+const MAX_SCROLL_CONTAINTER_COLS = 8
 const HORIZONTAL_MARGIN = 3 * 2 + 8
 const VERTICAL_MARGIN = 3 * 2
 const HEADER_HEIGHT = 40

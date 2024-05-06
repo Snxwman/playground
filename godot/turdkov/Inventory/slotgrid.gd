@@ -37,6 +37,7 @@ func _input(event):
 		if hovered_item != null:
 			hovered_item.open_subinventory()
 	
+	# BUG: needs an offset for scroll position
 	if event is InputEventMouseMotion:
 		var mouse_pos = scroll_container.get_local_mouse_position()
 		last_hovered_slot = hovered_slot
