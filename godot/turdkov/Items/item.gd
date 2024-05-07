@@ -93,12 +93,12 @@ func load_from_save():
 	pass
 		
 func setup_scene():
-	var item_size = Vector2(get_slot_width() * SLOT_SIZE_PX, get_slot_height() * SLOT_SIZE_PX)
+	var item_size = Vector2i(get_slot_width() * SLOT_SIZE_PX, get_slot_height() * SLOT_SIZE_PX)
 	
-	item_interior.size = item_size - Vector2(BORDER_OFFSET, BORDER_OFFSET)
+	item_interior.size = item_size - Vector2i(BORDER_OFFSET, BORDER_OFFSET)
 	item_border.size = item_size
 	unequippable_filter.size = item_size
-	item_background.set_pivot_offset(Vector2(get_slot_height()/2, get_slot_height()/2))
+	item_background.set_pivot_offset(Vector2i(get_slot_height()/2, get_slot_height()/2))
 
 	item_icon.texture = item_resource_data.icon
 	short_name_label.text = item_resource_data.short_name
@@ -139,8 +139,8 @@ func rotate_scene():
 	if rotated:
 		item_interior.rotation = DEG_90
 		item_border.rotation = DEG_90
-		item_interior.position = Vector2(get_slot_width() * SLOT_SIZE_PX, 0)
-		item_border.position = Vector2(get_slot_width() * SLOT_SIZE_PX, 0)
+		item_interior.position = Vector2i(get_slot_width() * SLOT_SIZE_PX, 0)
+		item_border.position = Vector2i(get_slot_width() * SLOT_SIZE_PX, 0)
 		
 		#special_icon_container.rotation = -DEG_90
 		#short_name_label.rotation = -DEG_90
@@ -157,8 +157,8 @@ func rotate_scene():
 	else:
 		item_interior.rotation = 0
 		item_border.rotation = 0
-		item_interior.position = Vector2(0, 0)
-		item_border.position = Vector2(0, 0)
+		item_interior.position = Vector2i(0, 0)
+		item_border.position = Vector2i(0, 0)
 		
 		#special_icon_container.rotation = 0
 		#short_name_label.rotation = 0

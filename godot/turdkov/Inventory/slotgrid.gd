@@ -13,18 +13,20 @@ const SLOT_SIZE_PX = 64
 @onready var scroll_container = $"."
 @onready var slotgrid_container = $SlotGrid
 
-var slotgrid = []
-var slotgrid_width
-var slotgrid_height
+var scroll_container_max_size: Vector2i
 
-var last_hovered_slot: Slot
+var slotgrid_width: int = 0
+var slotgrid_height: int = 0
+
+var last_hovered_slot: Slot = null
 var hovered_slot: Slot = null
-var focused_slot: Slot = null
 var hovered_item: Item = null
+
+var focused_slot: Slot = null
 var focused_item: Item = null
 
 var item_held: Item = null
-var slots_under_item = []
+var slots_under_item: Array[Slot] = []
 
 var can_place: bool = false
 
@@ -36,18 +38,6 @@ func _input(event):
 		print(str(hovered_item))
 		if hovered_item != null:
 			hovered_item.open_subinventory()
-	
-	# BUG: needs an offset for scroll position
-	if event is InputEventMouseMotion:
-		var mouse_pos = scroll_container.get_local_mouse_position()
-		last_hovered_slot = hovered_slot
-		hovered_slot = slotgrid_container.get_child(
-			int(mouse_pos[0] / SLOT_SIZE_PX) + 
-			int(mouse_pos[1] / SLOT_SIZE_PX) * slotgrid_width
-		)
-		if last_hovered_slot != hovered_slot:
-			emit_signal("slot_exited", last_hovered_slot)
-			emit_signal("slot_entered", hovered_slot)
 
 func _ready():
 	pass
@@ -60,9 +50,11 @@ func _on_item_rotated(item):
 	redraw_highlights()
 	
 func _on_mouse_entered_slot(slot):
-	#print("Entered slot (" + str(hovered_slot.slotgrid_location[0]) + ", " + str(hovered_slot.slotgrid_location[1]) + ")")
+	print("entered " + str(slot.slotgrid_location))
 	
+	last_hovered_slot = hovered_slot
 	hovered_slot = slot
+		
 	if hovered_slot != null and hovered_slot.item_stored != null:
 		hovered_item = hovered_slot.item_stored
 	else:
@@ -72,121 +64,176 @@ func _on_mouse_entered_slot(slot):
 		slots_under_item = get_slots_under_item()
 		can_place = item_can_fit()
 		
-	redraw_highlights()
+	if last_hovered_slot != hovered_slot:
+		redraw_highlights()
 			
 func _on_mouse_exited_slot(slot):
 	#print("Exited slot (" + str(hovered_slot.slotgrid_location[0]) + ", " + str(hovered_slot.slotgrid_location[1]) + ")")
 	# If hovered_slot is the one being exited, then unset it.
 	# This prevents unsetting hovered_slot when _on_slot_mouse_entered sets a new hovered slot before this signal fires.
+	print("exited " + str(slot.slotgrid_location))
 	if hovered_slot == slot:
 		hovered_slot = null
 		can_place = false
-		
+	
 	redraw_highlights()
 	
-func create_slotgrid(geometry: Vector2 = Vector2(12, 12)):
-	slotgrid_width = geometry[0]
-	slotgrid_height = geometry[1]
+func setup_scene(geometry: Vector2i, max_size = Vector2i(6, 6)):
+	scroll_container_max_size = Vector2i(max_size[0] * SLOT_SIZE_PX, max_size[1] * SLOT_SIZE_PX)
+	create_slotgrid(geometry)
+	scroll_container.size = Vector2i(get_slotgrid_width_pixels(), get_slotgrid_height_pixels())
+
+func resize_slotgrid_container():
+	for slotgrid_row_container in slotgrid_container.get_children().filter(func(child): return true if child is GridContainer else false):
+		slotgrid_row_container.columns = slotgrid_width
 	
-	scroll_container.size = Vector2(slotgrid_width * SLOT_SIZE_PX, slotgrid_height * SLOT_SIZE_PX)
-	slotgrid_container.columns = slotgrid_width
+	scroll_container.size = Vector2i(
+		min(get_slotgrid_width_pixels(), scroll_container_max_size[0]) + int(SLOT_SIZE_PX/3), 
+		min(get_slotgrid_height_pixels(), scroll_container_max_size[1]) + int(SLOT_SIZE_PX/3)
+	)
+
+func create_slotgrid(geometry: Vector2i):
+	add_space_to_slotgrid(geometry)
+	resize_slotgrid_container()
+
+func create_slotgrid_row(cols, row):
+	var slotgrid_row = GridContainer.new()
+	slotgrid_row.add_theme_constant_override("h_separation", 0)
+	slotgrid_row.add_theme_constant_override("v_separation", 0)
 	
-	for row in range(0, slotgrid_height):
-		#var slotgrid_row_node = Control.new()
-		var slotgrid_row = []
-		
-		for col in range(0, slotgrid_width):
-			var slot = create_slot(col, row)
-			#slotgrid_row_node.add_child(slot)
-			slotgrid_container.add_child(slot)
-			slotgrid_row.push_back(slot)
-		
-		#slotgrid_container.add_child(slotgrid_row_node)
-		slotgrid.push_back(slotgrid_row)
-		
-	slot_entered.connect(_on_mouse_entered_slot)
-	slot_exited.connect(_on_mouse_exited_slot)
+	for col in range(0, cols):
+		slotgrid_row.add_child(create_slot(col, row))
+	
+	return slotgrid_row
 
 func create_slot(col, row):
 	var slot: Slot = slot_scene.instantiate()
-	slot.slotgrid_index = row*12 + col
-	slot.slotgrid_location = Vector2(col, row)
-	
+	slot.slotgrid_index = 0
+	slot.slotgrid_location = Vector2i(col, row)
+	slot.slot_entered.connect(_on_mouse_entered_slot)
+	#slot.slot_entered.connect(_on_mouse_exited_slot)
 	return slot
 
-# TODO: finish
-func add_space_to_slotgrid(new_space: Vector2i):
+func add_space_to_slotgrid(cols_rows: Vector2i):
 	# new_space is an int vector denoting the number of (columns, rows) to add to the slotgrid.
-	if new_space[0] < 1 or new_space[1] < 1:
+	if cols_rows[0] < 0 or cols_rows[1] < 0 or cols_rows == Vector2i(0, 0):
 		return
 		
-	if new_space[0] == 0:
-		add_rows_to_slotgrid(new_space[1])
-	elif new_space[1] == 0:
-		add_columns_to_slotgrid(new_space[0])
-	else:
-		pass
+	if cols_rows[1] > 0:
+		add_rows_to_slotgrid(cols_rows[1])
+	
+	if cols_rows[0] > 0:
+		add_columns_to_slotgrid(cols_rows[0])
+		
+	resize_slotgrid_container()
 
-# TODO: finish
 func add_rows_to_slotgrid(rows: int):
 	for row in range(0, rows):
-		for col in range(0, slotgrid_width):
-			var slot = create_slot(col, row)
+		var slotgrid_row = create_slotgrid_row(slotgrid_width, slotgrid_container.get_child_count())
+		slotgrid_container.add_child(slotgrid_row)
 
-# TODO: finish	
+	slotgrid_height += rows
+
 func add_columns_to_slotgrid(cols: int):
-	for row in range(0, slotgrid_height):
+	for row in range(0, slotgrid_container.get_child_count()):
+		var row_container = slotgrid_container.get_child(row)
 		for col in range(0, cols):
-			var slot = create_slot(col, row)
-
-func redraw_highlights():
-	# Reset the entire slotgrid
-	for slot in slotgrid_container.get_children().filter(func(child): return true if child is Slot else false):
-		slot.set_highlight_color(slot.States.DEFAULT)
+			var slot = create_slot(row_container.get_child_count(), row)
+			row_container.add_child(slot)
 	
-	if item_held and hovered_slot:
-		if can_place:
-			for slot in slots_under_item:
-				slot.set_highlight_color(slot.States.EMPTY)
-		else:
-			for slot in slots_under_item:
-				slot.set_highlight_color(slot.States.OCCUPIED)	
+	slotgrid_width += cols
+
+func remove_space_from_slotgrid(cols_rows: Vector2i):
+	if cols_rows[0] < 0 or cols_rows[1] < 0 or cols_rows == Vector2i(0, 0):
+		return
+		
+	if cols_rows[1] > 0:
+		remove_rows_from_slotgrid(cols_rows[1])
+		
+	if cols_rows[0] > 0:
+		remove_columns_from_slotgrid(cols_rows[0])
+		
+	resize_slotgrid_container()
+
+# BUG: Check that no occupied rows are to be removed
+func remove_rows_from_slotgrid(rows: int):
+	if rows > slotgrid_height:
+		return
+	
+	for row in range(0, rows):
+		var node_to_delete = slotgrid_container.get_child(slotgrid_container.get_child_count() - 1)
+		slotgrid_container.remove_child(node_to_delete)
+		node_to_delete.queue_free()
+	
+	slotgrid_height -= rows
+	
+# BUG: Check that no occupied slots are to be removed
+func remove_columns_from_slotgrid(cols: int):
+	if cols > slotgrid_width:
+		return
+	
+	for row in slotgrid_container.get_children():
+		for col in range(0, cols):
+			var node_to_delete = row.get_child(row.get_child_count() - 1)
+			row.remove_child(node_to_delete)
+			node_to_delete.queue_free()
+	
+	slotgrid_width -= cols
 	
 func get_slots_under_item():
-	var slots = []
-	var item_width = item_held.get_slot_width()
-	var item_height = item_held.get_slot_height()
+	var slots: Array[Slot] = []
+	var held_item_width = item_held.get_slot_width()
+	var held_item_height = item_held.get_slot_height()
+	var hovered_slot_col = hovered_slot.slotgrid_location[0]
+	var hovered_slot_row = hovered_slot.slotgrid_location[1]
 	
 	# No hovered_slot set, outside of slotgrid
 	if hovered_slot == null:
-		return []
+		return slots
 	
-	# Check that the slots_under_item are all within the slotgrid
-	if hovered_slot.slotgrid_location[0] + item_width > slotgrid_width:
-		return []
-	elif hovered_slot.slotgrid_location[1] + item_height > slotgrid_height:
-		return []
+	# Check that slots will all be within the slotgrid
+	if hovered_slot_col + held_item_width > slotgrid_width:
+		return slots
+	elif hovered_slot_row + held_item_height > slotgrid_height:
+		return slots
 	
-	var offset = hovered_slot.slotgrid_index
-	for row in range(0, item_height):
-		for col in range(0, item_width):
-			#slots.push_back(slotgrid.get_child(col + (row * slotgrid_width) + offset))
-			slots.push_back(slotgrid_container.get_child(col + (row * slotgrid_width) + offset))
+	for row in range(0, held_item_height):
+		var slotgrid_row_container = slotgrid_container.get_child(hovered_slot_row + row)
+		for col in range(0, held_item_width):
+			slots.push_back(slotgrid_row_container.get_child(hovered_slot_col + col))
 	
+	print(str(slots))
 	return slots
 
 func item_can_fit():
 	for slot in slots_under_item:
-		if slot.state == slot.States.OCCUPIED:
+		# The slot is storing an item and it is stackable
+		if slot.state == slot.States.OCCUPIED and slot.item_stored.item_resource_data.stackable:
 			if slot.item_stored.item_resource_data.item_id != item_held.item_resource_data.item_id:
-				return false
+				return false  # Items are not the same type of item
 			elif slot.current_stack_size == slot.item_stored.item_resource_data.max_stack_size:
-				return false
-			# BUG: needs a check that item can stack before eveluating stack size
+				return false  # Slot is already storing max stacksize
 			elif slot.current_stack_size + item_held.current_stack_size > slot.item_stored.item_resource_data.max_stack_size:
-				return false
+				return false  # Placing would put slot over max stacksize
+
 	return true
-				
+
+func redraw_highlights():
+	var highlight_color = Slot.States.DEFAULT
+	
+	# Reset the entire slotgrid
+	for row_container in slotgrid_container.get_children():
+		for slot in row_container.get_children().filter(func(child): return true if child is Slot else false):
+			if slot.highlighted:
+				slot.set_highlight_color(highlight_color)
+	
+	if item_held and hovered_slot:
+		highlight_color = Slot.States.EMPTY if can_place else Slot.States.OCCUPIED
+		
+		for slot in slots_under_item:
+			slot.set_highlight_color(highlight_color)
+
+# TODO: manually set item's mouse filter
 func place_item():
 	can_place = item_can_fit()
 	if not can_place:
@@ -198,14 +245,16 @@ func place_item():
 		slot.item_stored = item_held
 		slot.current_stack_size += 1
 	
-	#var offset_col = hovered_slot.slotgrid_col * SLOT_SIZE_PX
-	#var offset_row = hovered_slot.slotgrid_row * SLOT_SIZE_PX
-	item_held.position = Vector2(hovered_slot.slotgrid_location[0] * SLOT_SIZE_PX, hovered_slot.slotgrid_location[1] * SLOT_SIZE_PX)
+	item_held.position = Vector2i(
+		hovered_slot.slotgrid_location[0] * SLOT_SIZE_PX, 
+		hovered_slot.slotgrid_location[1] * SLOT_SIZE_PX
+	)
 	item_held.selected = false
 	
 	item_held = null
 	emit_signal("slot_entered", hovered_slot)
-				
+
+# TODO: manually set item's mouse filter
 func pick_item():
 	if hovered_item == null:
 		return
@@ -223,3 +272,27 @@ func pick_item():
 	item_held.selected = true
 	can_place = item_can_fit()
 	redraw_highlights()
+
+func get_slotgrid_width_pixels():
+	return slotgrid_width * SLOT_SIZE_PX
+	
+func get_slotgrid_height_pixels():
+	return slotgrid_height * SLOT_SIZE_PX
+
+func get_slotgrid_container_width_pixels():
+	# ONLY USE FOR DEBUGING
+	# Should always return the same as get_slotgrid_width_pixels.
+	# Difference in return values should indicate that slotgrid_width was not updated properly
+	if slotgrid_container.get_child_count() > 0:  # No rows in the slotgrid
+		return slotgrid_container.get_child(0).get_child_count() * SLOT_SIZE_PX
+	else:
+		return 0
+		
+func get_slotgrid_container_height_pixels():
+	# ONLY USE FOR DEBUGING
+	# Should always return the same as get_slotgrid_height_pixels.
+	# Difference in return values should indicate that slotgrid_height was not updated properly
+	if slotgrid_container.get_child_count() > 0:  # No rows in the slotgrid
+		return slotgrid_container.get_child(0).get_child_count() * SLOT_SIZE_PX
+	else:
+		return 0

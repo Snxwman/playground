@@ -13,6 +13,7 @@ custom_minimum_size = Vector2(64, 64)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 1
 border_color = Color(0.141176, 0.141176, 0.141176, 1)
 editor_only = false
 
@@ -23,10 +24,15 @@ offset_left = 1.0
 offset_top = 1.0
 offset_right = 63.0
 offset_bottom = 63.0
+mouse_filter = 2
 color = Color(0.07, 0.07, 0.07, 1)
 
 [node name="SlotHighlight" type="ColorRect" parent="."]
 layout_mode = 0
 offset_right = 64.0
 offset_bottom = 64.0
+mouse_filter = 2
 color = Color(1, 1, 1, 0)
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered_slot"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited_slot"]

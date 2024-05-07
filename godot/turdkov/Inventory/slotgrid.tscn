@@ -3,13 +3,8 @@
 [ext_resource type="Script" path="res://Inventory/slotgrid.gd" id="1_wosl2"]
 
 [node name="ItemArea" type="ScrollContainer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -2552.0
-offset_bottom = -1432.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_right = 8.0
+offset_bottom = 8.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_wosl2")
@@ -21,4 +16,3 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
-columns = 12

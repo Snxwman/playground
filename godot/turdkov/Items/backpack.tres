@@ -16,6 +16,7 @@ base_trade_value = 15000
 slot_geometry = Vector2(5, 6)
 has_internal_storage = true
 internal_slot_geometry = Vector2(6, 12)
+internal_slotgrid_rows_to_show = 6
 stackable = false
 max_stack_size = 1
 default_stack_size = 1
