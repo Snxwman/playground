@@ -1,4 +1,4 @@
-class_name Item extends Node2D
+class_name Item extends Control
 
 signal item_rotated(item)
 
@@ -10,7 +10,7 @@ const DEFAULT_BORDER_COLOR = Color("#cccccc", 0.9)
 const BORDER_OFFSET = 2
 
 @onready var slotgrid_scene = preload("res://Inventory/slotgrid.tscn")
-@onready var subinventory_container_scene = preload("res://Inventory/internal_inventory.tscn")
+@onready var subinventory_container_scene = preload("res://Inventory/subinventory.tscn")
 
 # Item ui components
 @onready var item_interior = $Interior
@@ -126,10 +126,6 @@ func setup_scene():
 		insured_icon.visible = false
 	
 func rotate_scene():
-	"""
-	Toggles rotated variable, rotates and realigns ui elements in the scene, and emits the item_rotated signal 
-	"""
-	
 	# Ignore rotation for square items
 	if item_resource_data.slot_geometry[0] == item_resource_data.slot_geometry[1]:
 		return

@@ -1,7 +1,7 @@
 class_name Stash extends Control
 
-const STASH_WIDTH: int = 10
-const STASH_LINES: int = 14
+const STASH_WIDTH: int = 12
+const STASH_LINES: int = 30
 const STASH_GEOMETRY: Vector2i = Vector2i(STASH_WIDTH, STASH_LINES)
 const STASH_MAX_SIZE: Vector2i = Vector2i(12, 16)
 const SLOT_SIZE_PX = 64
@@ -31,7 +31,7 @@ func _process(delta):
 func _on_spawn_button_pressed():
 	if not slotgrid.item_held:
 		var item = item_scene.instantiate()
-		slotgrid.slotgrid_container.add_child(item)
+		slotgrid.item_container.add_child(item)
 		
 		item.spawn_with_random_stats(items.pick_random())
 		item.selected = true

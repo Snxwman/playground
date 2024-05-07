@@ -11,6 +11,7 @@ const SLOT_SIZE_PX = 64
 @onready var slot_scene = preload("res://Inventory/slot.tscn")
 @onready var item_scene = preload("res://Items/item.tscn")
 @onready var scroll_container = $"."
+@onready var item_container = $ItemContainer
 @onready var slotgrid_container = $SlotGrid
 
 var scroll_container_max_size: Vector2i
@@ -26,7 +27,7 @@ var focused_slot: Slot = null
 var focused_item: Item = null
 
 var item_held: Item = null
-var slots_under_item: Array[Slot] = []
+var slots_under_item = []
 
 var can_place: bool = false
 
@@ -35,7 +36,6 @@ func _input(event):
 		if hovered_slot:
 			place_item() if item_held else pick_item()
 	elif Input.is_action_just_pressed("open_subinventory"):
-		print(str(hovered_item))
 		if hovered_item != null:
 			hovered_item.open_subinventory()
 
@@ -181,7 +181,7 @@ func remove_columns_from_slotgrid(cols: int):
 	slotgrid_width -= cols
 	
 func get_slots_under_item():
-	var slots: Array[Slot] = []
+	var slots = []
 	var held_item_width = item_held.get_slot_width()
 	var held_item_height = item_held.get_slot_height()
 	var hovered_slot_col = hovered_slot.slotgrid_location[0]
@@ -202,19 +202,22 @@ func get_slots_under_item():
 		for col in range(0, held_item_width):
 			slots.push_back(slotgrid_row_container.get_child(hovered_slot_col + col))
 	
-	print(str(slots))
 	return slots
 
+# FIXME: gross
 func item_can_fit():
 	for slot in slots_under_item:
 		# The slot is storing an item and it is stackable
-		if slot.state == slot.States.OCCUPIED and slot.item_stored.item_resource_data.stackable:
+		if slot.state == Slot.States.OCCUPIED:
 			if slot.item_stored.item_resource_data.item_id != item_held.item_resource_data.item_id:
 				return false  # Items are not the same type of item
-			elif slot.current_stack_size == slot.item_stored.item_resource_data.max_stack_size:
-				return false  # Slot is already storing max stacksize
-			elif slot.current_stack_size + item_held.current_stack_size > slot.item_stored.item_resource_data.max_stack_size:
-				return false  # Placing would put slot over max stacksize
+			elif slot.item_stored.item_resource_data.stackable:
+				if slot.current_stack_size == slot.item_stored.item_resource_data.max_stack_size:
+					return false  # Slot is already storing max stacksize
+				elif slot.current_stack_size + item_held.current_stack_size > slot.item_stored.item_resource_data.max_stack_size:
+					return false  # Placing would put slot over max stacksize
+			else:
+				return false
 
 	return true
 
@@ -239,16 +242,16 @@ func place_item():
 	if not can_place:
 		return
 	
-	item_held.occupied_slots = slots_under_item
 	for slot in slots_under_item:
 		slot.state = slot.States.OCCUPIED
 		slot.item_stored = item_held
 		slot.current_stack_size += 1
-	
+			
 	item_held.position = Vector2i(
 		hovered_slot.slotgrid_location[0] * SLOT_SIZE_PX, 
 		hovered_slot.slotgrid_location[1] * SLOT_SIZE_PX
 	)
+	item_held.occupied_slots = slots_under_item
 	item_held.selected = false
 	
 	item_held = null
@@ -265,7 +268,7 @@ func pick_item():
 	item_held.occupied_slots = []
 	
 	for item_slot in item_previously_occupied_slots:
-		item_slot.state = item_slot.States.EMPTY
+		item_slot.state = item_slot.States.DEFAULT
 		item_slot.item_stored = null
 		item_slot.current_stack_size = 0
 		

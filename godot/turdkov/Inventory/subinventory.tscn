@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bgticghb64vjb"]
 
-[ext_resource type="Script" path="res://Inventory/internal_inventory_container.gd" id="1_iqpjm"]
+[ext_resource type="Script" path="res://Inventory/subinventory.gd" id="1_ujsmq"]
 
 [node name="Subinventory" type="ColorRect"]
 custom_minimum_size = Vector2(110, 110)
@@ -9,7 +9,7 @@ offset_bottom = 110.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 color = Color(0.141176, 0.168627, 0.219608, 1)
-script = ExtResource("1_iqpjm")
+script = ExtResource("1_ujsmq")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
