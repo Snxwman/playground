@@ -45,4 +45,5 @@ func _on_mouse_entered_slot():
 	emit_signal("slot_entered", self)
 
 func _on_mouse_exited_slot():
+	#if not self.get_global_rect().has_point(get_global_mouse_position()):
 	emit_signal("slot_exited", self)

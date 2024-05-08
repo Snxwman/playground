@@ -1,7 +1,10 @@
 class_name Slotgrid extends ScrollContainer
 
+signal slotgrid_entered(slotgrid)
+signal slotgrid_exited(slotgrid)
 signal slot_entered(slot)
 signal slot_exited(slot)
+signal open_subinventory(item)
 
 signal item_placed()
 signal item_picked()
@@ -11,8 +14,8 @@ const SLOT_SIZE_PX = 64
 @onready var slot_scene = preload("res://Inventory/slot.tscn")
 @onready var item_scene = preload("res://Items/item.tscn")
 @onready var scroll_container = $"."
+@onready var slotgrid_container = $SlotgridContainer
 @onready var item_container = $ItemContainer
-@onready var slotgrid_container = $SlotGrid
 
 var scroll_container_max_size: Vector2i
 
@@ -37,7 +40,7 @@ func _input(event):
 			place_item() if item_held else pick_item()
 	elif Input.is_action_just_pressed("open_subinventory"):
 		if hovered_item != null:
-			hovered_item.open_subinventory()
+			emit_signal("open_subinventory", hovered_item)
 
 func _ready():
 	pass
@@ -48,6 +51,12 @@ func _process(delta):
 func _on_item_rotated(item):
 	slots_under_item = get_slots_under_item()
 	redraw_highlights()
+	
+func _on_mouse_entered_slotgrid():
+	emit_signal("slotgrid_entered", self)
+
+func _on_mouse_exited_slotgrid():
+	emit_signal("slotgrid_exited", self)
 	
 func _on_mouse_entered_slot(slot):
 	print("entered " + str(slot.slotgrid_location))
@@ -111,7 +120,7 @@ func create_slot(col, row):
 	slot.slotgrid_index = 0
 	slot.slotgrid_location = Vector2i(col, row)
 	slot.slot_entered.connect(_on_mouse_entered_slot)
-	#slot.slot_entered.connect(_on_mouse_exited_slot)
+	slot.slot_exited.connect(_on_mouse_exited_slot)
 	return slot
 
 func add_space_to_slotgrid(cols_rows: Vector2i):
@@ -155,30 +164,63 @@ func remove_space_from_slotgrid(cols_rows: Vector2i):
 		
 	resize_slotgrid_container()
 
-# BUG: Check that no occupied rows are to be removed
+# Currently, an all or nothing operation
 func remove_rows_from_slotgrid(rows: int):
-	if rows > slotgrid_height:
+	var rows_to_delete = []
+	var can_delete = true
+	
+	if rows > slotgrid_height:  # Attempting to remove more rows than exist
 		return
 	
-	for row in range(0, rows):
-		var node_to_delete = slotgrid_container.get_child(slotgrid_container.get_child_count() - 1)
-		slotgrid_container.remove_child(node_to_delete)
-		node_to_delete.queue_free()
+	# Collect all the rows to delete
+	for i in range(0, rows):
+		if not can_delete:  # Stop looping if we already know we cant remove the row
+			break
+			
+		var row = slotgrid_container.get_child(slotgrid_container.get_child_count() - 1)
+		rows_to_delete.push_back(row)
+		
+		# Check that no slot in the row is occupied
+		for slot in row.get_children():
+			if slot.state == Slot.States.OCCUPIED:
+				can_delete = false
+				break
+		
+	if can_delete:
+		for row in rows_to_delete:
+			remove_child(row)
+			row.queue_free()
 	
-	slotgrid_height -= rows
+		
+		slotgrid_height -= rows  # Only update the height if we actually delete rows
 	
-# BUG: Check that no occupied slots are to be removed
+# Currently, an all or nothing operation
 func remove_columns_from_slotgrid(cols: int):
-	if cols > slotgrid_width:
+	var slots_to_delete = []
+	var can_delete = true
+	
+	if cols > slotgrid_width:  # Attempting to remove more columns than exist
 		return
 	
+	# Collect all the slots to delete
 	for row in slotgrid_container.get_children():
+		if not can_delete:  # Stop looping if we already know we cant remove the columns
+			break
+		
 		for col in range(0, cols):
-			var node_to_delete = row.get_child(row.get_child_count() - 1)
-			row.remove_child(node_to_delete)
-			node_to_delete.queue_free()
-	
-	slotgrid_width -= cols
+			var slot = row.get_child(row.get_child_count() - 1)
+			slots_to_delete.push_back(slot)
+			
+			if slot.state == Slot.States.OCCUPIED:  # Check that the slot isnt occupied
+				can_delete = false
+				break
+		
+	if can_delete:
+		for slot in slots_to_delete:	
+			remove_child(slot)
+			slot.queue_free()
+		
+		slotgrid_width -= cols  # Only update the width if we actually delete columns
 	
 func get_slots_under_item():
 	var slots = []
@@ -299,3 +341,4 @@ func get_slotgrid_container_height_pixels():
 		return slotgrid_container.get_child(0).get_child_count() * SLOT_SIZE_PX
 	else:
 		return 0
+

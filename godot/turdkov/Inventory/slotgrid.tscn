@@ -2,18 +2,19 @@
 
 [ext_resource type="Script" path="res://Inventory/slotgrid.gd" id="1_wosl2"]
 
-[node name="ItemArea" type="ScrollContainer"]
+[node name="ScrollContainer" type="ScrollContainer"]
 offset_right = 8.0
 offset_bottom = 8.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_wosl2")
 
-[node name="SlotGrid" type="GridContainer" parent="."]
+[node name="SlotgridContainer" type="GridContainer" parent="."]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 
@@ -22,3 +23,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered_slotgrid"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited_slotgrid"]

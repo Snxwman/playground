@@ -221,5 +221,7 @@ func open_subinventory():
 		subinventory.setup_scene(self)
 		subinventory.close_subinventory.connect(close_subinventory)
 		
+		return subinventory.slotgrid_container.get_child(0)
+		
 func close_subinventory():
 	subinventory_container.visible = false
