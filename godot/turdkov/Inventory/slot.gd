@@ -5,7 +5,7 @@ signal slot_exited(slot)
 
 @onready var highlight = $SlotHighlight
 
-var slotgrid_index: int
+var parent_slotgrid: Slotgrid
 var slotgrid_location: Vector2i
 var is_hovering = false
 

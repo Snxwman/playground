@@ -58,34 +58,34 @@ func _on_mouse_entered_slotgrid():
 func _on_mouse_exited_slotgrid():
 	emit_signal("slotgrid_exited", self)
 	
-func _on_mouse_entered_slot(slot):
-	print("entered " + str(slot.slotgrid_location))
-	
-	last_hovered_slot = hovered_slot
-	hovered_slot = slot
-		
-	if hovered_slot != null and hovered_slot.item_stored != null:
-		hovered_item = hovered_slot.item_stored
-	else:
-		hovered_item = null
-	
-	if item_held:
-		slots_under_item = get_slots_under_item()
-		can_place = item_can_fit()
-		
-	if last_hovered_slot != hovered_slot:
-		redraw_highlights()
-			
-func _on_mouse_exited_slot(slot):
-	#print("Exited slot (" + str(hovered_slot.slotgrid_location[0]) + ", " + str(hovered_slot.slotgrid_location[1]) + ")")
-	# If hovered_slot is the one being exited, then unset it.
-	# This prevents unsetting hovered_slot when _on_slot_mouse_entered sets a new hovered slot before this signal fires.
-	print("exited " + str(slot.slotgrid_location))
-	if hovered_slot == slot:
-		hovered_slot = null
-		can_place = false
-	
-	redraw_highlights()
+#func _on_mouse_entered_slot(slot):
+	#print("entered " + str(slot.slotgrid_location))
+	#
+	#last_hovered_slot = hovered_slot
+	#hovered_slot = slot
+		#
+	#if hovered_slot != null and hovered_slot.item_stored != null:
+		#hovered_item = hovered_slot.item_stored
+	#else:
+		#hovered_item = null
+	#
+	#if item_held:
+		#slots_under_item = get_slots_under_item()
+		#can_place = item_can_fit()
+		#
+	#if last_hovered_slot != hovered_slot:
+		#redraw_highlights()
+			#
+#func _on_mouse_exited_slot(slot):
+	##print("Exited slot (" + str(hovered_slot.slotgrid_location[0]) + ", " + str(hovered_slot.slotgrid_location[1]) + ")")
+	## If hovered_slot is the one being exited, then unset it.
+	## This prevents unsetting hovered_slot when _on_slot_mouse_entered sets a new hovered slot before this signal fires.
+	#print("exited " + str(slot.slotgrid_location))
+	#if hovered_slot == slot:
+		#hovered_slot = null
+		#can_place = false
+	#
+	#redraw_highlights()
 	
 func setup_scene(geometry: Vector2i, max_size = Vector2i(6, 6)):
 	scroll_container_max_size = Vector2i(max_size[0] * SLOT_SIZE_PX, max_size[1] * SLOT_SIZE_PX)
@@ -117,10 +117,10 @@ func create_slotgrid_row(cols, row):
 
 func create_slot(col, row):
 	var slot: Slot = slot_scene.instantiate()
-	slot.slotgrid_index = 0
 	slot.slotgrid_location = Vector2i(col, row)
-	slot.slot_entered.connect(_on_mouse_entered_slot)
-	slot.slot_exited.connect(_on_mouse_exited_slot)
+	slot.parent_slotgrid = self
+	#slot.slot_entered.connect(_on_mouse_entered_slot)
+	#slot.slot_exited.connect(_on_mouse_exited_slot)
 	return slot
 
 func add_space_to_slotgrid(cols_rows: Vector2i):
