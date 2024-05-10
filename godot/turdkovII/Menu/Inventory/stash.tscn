@@ -1,0 +1,63 @@
+[gd_scene load_steps=2 format=3 uid="uid://8v5nmyqmbedl"]
+
+[ext_resource type="Script" path="res://Menu/Inventory/stash.gd" id="1_3tof5"]
+
+[node name="Stash" type="Container"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3tof5")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer"]
+custom_minimum_size = Vector2(800, 200)
+layout_mode = 2
+color = Color(0.47, 0.47, 0.47, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -52.5
+offset_top = -50.5
+offset_right = 52.5
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/ColorRect/VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="AddRow" type="Button" parent="VBoxContainer/ColorRect/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "+ Row"
+
+[node name="AddCol" type="Button" parent="VBoxContainer/ColorRect/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "+ Col"
+
+[node name="DelRow" type="Button" parent="VBoxContainer/ColorRect/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "- Row"
+
+[node name="DelCol" type="Button" parent="VBoxContainer/ColorRect/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "- Col"
+
+[node name="SpawnItem" type="Button" parent="VBoxContainer/ColorRect/VBoxContainer"]
+layout_mode = 2
+text = "Spawn Item"
+
+[connection signal="pressed" from="VBoxContainer/ColorRect/VBoxContainer/GridContainer/AddRow" to="." method="_on_add_row_pressed"]
+[connection signal="pressed" from="VBoxContainer/ColorRect/VBoxContainer/GridContainer/AddCol" to="." method="_on_add_col_pressed"]
+[connection signal="pressed" from="VBoxContainer/ColorRect/VBoxContainer/GridContainer/DelRow" to="." method="_on_del_row_pressed"]
+[connection signal="pressed" from="VBoxContainer/ColorRect/VBoxContainer/GridContainer/DelCol" to="." method="_on_del_col_pressed"]
+[connection signal="pressed" from="VBoxContainer/ColorRect/VBoxContainer/SpawnItem" to="." method="_on_spawn_item_pressed"]

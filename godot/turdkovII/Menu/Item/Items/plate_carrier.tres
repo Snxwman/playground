@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="ItemResource" load_steps=3 format=3 uid="uid://ddk8xljeao06d"]
+
+[ext_resource type="Texture2D" uid="uid://b0w8wl28jhpo2" path="res://Assets/Items/plate_carrier.webp" id="1_0m4d3"]
+[ext_resource type="Script" path="res://Menu/Item/item_resource.gd" id="1_wlb8d"]
+
+[resource]
+script = ExtResource("1_wlb8d")
+icon = ExtResource("1_0m4d3")
+item_id = "plate_carrier"
+item_type = 0
+long_name = "Crye Precision CPC plate carrier (Goons Edition)"
+short_name = "CPC GE"
+description = ""
+weight = 83
+base_trade_value = 59900
+slot_geometry = Vector2i(4, 3)
+has_internal_storage = true
+internal_slot_geometry = Vector2i(3, 4)
+internal_slotgrid_rows_to_show = 6
+stackable = false
+max_stack_size = 1
+default_stack_size = 1
+has_durability = true
+max_durability = 100
+default_durability = 100
+med_durability = 0
+low_durability = 0
+has_capacity = true
+max_capacity = 12
+default_capacity = 0
+med_capacity = 0
+low_capacity = 0

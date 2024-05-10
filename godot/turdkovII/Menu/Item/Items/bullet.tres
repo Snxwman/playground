@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="ItemResource" load_steps=3 format=3 uid="uid://b6sv2rgetqfo3"]
+
+[ext_resource type="Script" path="res://Menu/Item/item_resource.gd" id="1_ducm1"]
+[ext_resource type="Texture2D" uid="uid://beahrxx66sfdh" path="res://Assets/Items/bullet.webp" id="1_nqoj2"]
+
+[resource]
+script = ExtResource("1_ducm1")
+icon = ExtResource("1_nqoj2")
+item_id = "bullet"
+item_type = 1
+long_name = "5.56x45mm M855"
+short_name = "M855"
+description = ""
+weight = 2
+base_trade_value = 300
+slot_geometry = Vector2(1, 1)
+has_internal_storage = false
+internal_slot_geometry = Array[Vector2]([Vector2(1, 1)])
+internal_slotgrid_rows_to_show = 6
+stackable = true
+max_stack_size = 100
+default_stack_size = 1
+has_durability = false
+max_durability = 100
+default_durability = 100
+med_durability = 0
+low_durability = 0
+has_capacity = false
+max_capacity = 1
+default_capacity = 1
+med_capacity = 0
+low_capacity = 0

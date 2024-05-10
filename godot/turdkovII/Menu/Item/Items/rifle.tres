@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="ItemResource" load_steps=3 format=3 uid="uid://bhv142034rthf"]
+
+[ext_resource type="Texture2D" uid="uid://ccxns5mlw37l0" path="res://Assets/Items/rifle.webp" id="1_8pix6"]
+[ext_resource type="Script" path="res://Menu/Item/item_resource.gd" id="1_8w1o7"]
+
+[resource]
+script = ExtResource("1_8w1o7")
+icon = ExtResource("1_8pix6")
+item_id = "rifle"
+item_type = 0
+long_name = "FN SCAR-H 7.62x51 assault rifle (FDE) Default"
+short_name = "Mk 17 Default"
+description = ""
+weight = 79
+base_trade_value = 375000
+slot_geometry = Vector2(5, 2)
+has_internal_storage = false
+internal_slot_geometry = Array[Vector2]([Vector2(1, 1)])
+internal_slotgrid_rows_to_show = 6
+stackable = false
+max_stack_size = 1
+default_stack_size = 1
+has_durability = true
+max_durability = 1000
+default_durability = 850
+med_durability = 500
+low_durability = 300
+has_capacity = true
+max_capacity = 1
+default_capacity = 1
+med_capacity = 0
+low_capacity = 0

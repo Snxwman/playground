@@ -1,0 +1,55 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgticghb64vjb"]
+
+[ext_resource type="Script" path="res://Menu/Inventory/Slotgrid/sgc_subinventory.gd" id="1_66ygn"]
+
+[node name="Subinventory" type="ColorRect"]
+custom_minimum_size = Vector2(110, 110)
+offset_right = 110.0
+offset_bottom = 110.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.141176, 0.168627, 0.219608, 1)
+script = ExtResource("1_66ygn")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="ItemName" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ScavBP"
+text_overrun_behavior = 1
+
+[node name="CloseWindow" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+mouse_default_cursor_shape = 2
+text = "X"
+
+[node name="SlotgridContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/CloseWindow" to="." method="_on_close_window_pressed"]

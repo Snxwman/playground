@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=3 uid="uid://ng58xrkd1lea"]
+
+[ext_resource type="Script" path="res://Menu/menu.gd" id="1_8x0pn"]
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8x0pn")
+
+[node name="ScreenContainer" type="Container" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="StashScreenContainer" type="Container" parent="ScreenContainer"]
+layout_mode = 2
+
+[node name="SubinventoryContainer" type="Container" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="DebugMenuContainer" type="Container" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HeldItemContainer" type="Container" parent="."]
+layout_mode = 2
+offset_right = 40.0
+offset_bottom = 40.0
+
+[connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]

@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmou55anpvgmf"]
+
+[ext_resource type="Script" path="res://Menu/Inventory/Slotgrid/sgc_stash.gd" id="1_garsb"]
+
+[node name="SlotgridContainerStash" type="Container"]
+custom_minimum_size = Vector2(776, 1286)
+offset_right = 776.0
+offset_bottom = 1286.0
+script = ExtResource("1_garsb")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.14902, 0.14902, 0.14902, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4

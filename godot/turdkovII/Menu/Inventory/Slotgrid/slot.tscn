@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=3 uid="uid://dtiddlj2f7mvi"]
+
+[ext_resource type="Script" path="res://Menu/Inventory/Slotgrid/slot.gd" id="1_f23dk"]
+
+[node name="Slot" type="Container"]
+offset_right = 64.0
+offset_bottom = 64.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_f23dk")
+
+[node name="Border" type="ColorRect" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0.14902, 0.14902, 0.14902, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="Border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="Background" type="ColorRect" parent="Border/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.0470588, 0.0470588, 0.0588235, 1)
+
+[node name="Highlight" type="ColorRect" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered_slot"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited_slot"]

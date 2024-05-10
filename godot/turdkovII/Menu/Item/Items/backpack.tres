@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="ItemResource" load_steps=3 format=3 uid="uid://cihrqugnqy7nk"]
+
+[ext_resource type="Script" path="res://Menu/Item/item_resource.gd" id="1_yd8v6"]
+[ext_resource type="Texture2D" uid="uid://bdqatqu7t3ufq" path="res://Assets/Items/backpack.webp" id="1_ytr4j"]
+
+[resource]
+script = ExtResource("1_yd8v6")
+icon = ExtResource("1_ytr4j")
+item_id = "backpack"
+item_type = 0
+long_name = "Gruppa 99 T30 backpack (MultiCam)"
+short_name = "T30"
+description = ""
+weight = 30
+base_trade_value = 15000
+slot_geometry = Vector2i(5, 6)
+has_internal_storage = true
+internal_slot_geometry = Vector2i(8, 10)
+internal_slotgrid_rows_to_show = 6
+stackable = false
+max_stack_size = 1
+default_stack_size = 1
+has_durability = true
+max_durability = 300
+default_durability = 250
+med_durability = 150
+low_durability = 75
+has_capacity = true
+max_capacity = 30
+default_capacity = 0
+med_capacity = 0
+low_capacity = 0

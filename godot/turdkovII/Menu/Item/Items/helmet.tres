@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="ItemResource" load_steps=3 format=3 uid="uid://b726vrsx8pqhc"]
+
+[ext_resource type="Script" path="res://Menu/Item/item_resource.gd" id="1_3pn6c"]
+[ext_resource type="Texture2D" uid="uid://dwpnh05fk66ub" path="res://Assets/Items/helmet.webp" id="1_rryfj"]
+
+[resource]
+script = ExtResource("1_3pn6c")
+icon = ExtResource("1_rryfj")
+item_id = "helmet"
+item_type = 0
+long_name = "Team Wendy EXFIL Ballistic Helmet (Black)"
+short_name = "EXFIL"
+description = ""
+weight = 60
+base_trade_value = 23500
+slot_geometry = Vector2(2, 2)
+has_internal_storage = false
+internal_slot_geometry = Array[Vector2]([Vector2(1, 1)])
+internal_slotgrid_rows_to_show = 6
+stackable = false
+max_stack_size = 1
+default_stack_size = 1
+has_durability = true
+max_durability = 500
+default_durability = 500
+med_durability = 400
+low_durability = 200
+has_capacity = false
+max_capacity = 1
+default_capacity = 1
+med_capacity = 0
+low_capacity = 0

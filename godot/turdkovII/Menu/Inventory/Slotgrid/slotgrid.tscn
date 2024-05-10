@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://cr445ttaava85"]
+
+[ext_resource type="Script" path="res://Menu/Inventory/Slotgrid/slotgrid.gd" id="1_8dhqb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cm3vg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2piyh"]
+
+[sub_resource type="Theme" id="Theme_8km7i"]
+HScrollBar/styles/scroll = SubResource("StyleBoxEmpty_cm3vg")
+VScrollBar/styles/scroll = SubResource("StyleBoxEmpty_2piyh")
+
+[node name="ScrollContainer" type="ScrollContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_8km7i")
+script = ExtResource("1_8dhqb")
+
+[node name="SlotgridContainer" type="GridContainer" parent="."]
+layout_mode = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+
+[node name="ItemContainer" type="Container" parent="."]
+layout_mode = 2

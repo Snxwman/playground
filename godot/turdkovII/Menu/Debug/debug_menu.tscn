@@ -1,0 +1,146 @@
+[gd_scene load_steps=2 format=3 uid="uid://4bi7c8txt7e7"]
+
+[ext_resource type="Script" path="res://Menu/Debug/debug_menu.gd" id="1_wv1wb"]
+
+[node name="DebugMenu" type="Control"]
+custom_minimum_size = Vector2(480, 680)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 480.0
+offset_bottom = 680.0
+script = ExtResource("1_wv1wb")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 480.0
+offset_bottom = 680.0
+color = Color(0.28, 0.0476, 0.0476, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 32
+text = "DEBUG MENU"
+
+[node name="HSeparator" type="HSeparator" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="SpawnButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Spawn Random"
+
+[node name="StashRowColAdjust" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/StashRowColAdjust"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AddRow" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/StashRowColAdjust/VBoxContainer"]
+layout_mode = 2
+text = "+ Row"
+
+[node name="DelRow" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/StashRowColAdjust/VBoxContainer"]
+layout_mode = 2
+text = "- Row
+"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/StashRowColAdjust"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AddCol" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/StashRowColAdjust/VBoxContainer2"]
+layout_mode = 2
+text = "+ Col"
+
+[node name="DelCol" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/StashRowColAdjust/VBoxContainer2"]
+layout_mode = 2
+text = "- Col
+"
+
+[node name="SpawnParams" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/SpawnParams"]
+layout_mode = 2
+
+[node name="RandomStats" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/SpawnParams/VBoxContainer"]
+layout_mode = 2
+text = "Random Stats"
+
+[node name="Insured" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/SpawnParams/VBoxContainer"]
+layout_mode = 2
+text = "Insured"
+
+[node name="Looted" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/SpawnParams/VBoxContainer"]
+layout_mode = 2
+text = "Looted
+"
+
+[node name="Quest" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/SpawnParams/VBoxContainer"]
+layout_mode = 2
+text = "Quest
+"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/SpawnParams"]
+layout_mode = 2
+
+[node name="RandomStats" type="CheckButton" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/SpawnParams/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Insured" type="CheckButton" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/SpawnParams/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Looted" type="CheckButton" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/SpawnParams/VBoxContainer2"]
+layout_mode = 2
+
+[node name="Quest" type="CheckButton" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/SpawnParams/VBoxContainer2"]
+layout_mode = 2
+
+[node name="HSeparator2" type="HSeparator" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TabBar" type="TabBar" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+tab_count = 5
+tab_0/title = "All"
+tab_1/title = "Gear"
+tab_2/title = "Weapons"
+tab_3/title = "Ammo"
+tab_4/title = "Misc"
+
+[node name="GridContainer" type="GridContainer" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
