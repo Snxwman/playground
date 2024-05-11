@@ -52,4 +52,6 @@ theme_override_constants/margin_top = 3
 theme_override_constants/margin_right = 3
 theme_override_constants/margin_bottom = 3
 
+[connection signal="mouse_entered" from="VBoxContainer/MarginContainer" to="." method="_on_mouse_entered_window_ribon"]
+[connection signal="mouse_exited" from="VBoxContainer/MarginContainer" to="." method="_on_mouse_exited_window_ribon"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/CloseWindow" to="." method="_on_close_window_pressed"]

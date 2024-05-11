@@ -24,10 +24,13 @@ enum ProvisionType {FOOD, WATER, SUPPLEMENT, STIM}
 
 @export_group("Slot Geometry")
 @export var slot_geometry: Vector2i = Vector2i(1, 1)
+@export var can_be_rolled: bool = false
+@export var rolled_geometry: Vector2i = Vector2i(1, 2)
 @export_subgroup("Internal Slot Geometry")
 @export var has_internal_storage: bool = false
 @export var internal_slot_geometry: Vector2i = Vector2i(0, 0)
 @export var internal_slotgrid_rows_to_show: int = 6
+@export var test: Script
 
 @export_group("Stacking")
 @export var stackable: bool = false

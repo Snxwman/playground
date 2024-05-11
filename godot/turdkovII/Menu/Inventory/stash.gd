@@ -18,7 +18,7 @@ func _process(_delta):
 
 
 func _on_spawn_item_pressed():
-	emit_signal("spawn_item_request")
+	spawn_item_request.emit()
 
 
 func _on_add_row_pressed():

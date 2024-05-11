@@ -55,27 +55,27 @@ func _process(_delta):
 
 
 func _on_mouse_entered_slot():
-	emit_signal("mouse_entered_slot", self)
+	mouse_entered_slot.emit(self)
 	
 	
 func _on_mouse_exited_slot():
-	emit_signal("mouse_exited_slot", self)
+	mouse_exited_slot.emit(self)
 	
 	
 #func _on_mouse_clicked_slot(slot):
-	#emit_signal("mouse_clicked_slot", self)
+	#"mouse_clicked_slot.emit(self)
 	#
 	#
 #func _on_mouse_double_clicked_slot(slot):
-	#emit_signal("mouse_double_clicked_slot", self)
+	#mouse_double_clicked_slot.emit(self)
 	#
 	#
 #func _on_mouse_began_drag_on_slot(slot):
-	#emit_signal("mouse_began_drag_on_slot", self)
+	#mouse_began_drag_on_slot.emit(self)
 	#
 	#
 #func _on_mouse_ended_drag_on_slot(slot):
-	#emit_signal("mouse_ended_drag_on_slot", self)
+	#mouse_ended_drag_on_slot.emit(self)
 	
 	
 func sync():

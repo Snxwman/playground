@@ -16,6 +16,8 @@ signal item_picked(item, slotgrid, from_slot)
 @onready var item_container = $ItemContainer
 
 var geometry: Vector2i = Vector2i(0, 0)
+var total_slot_count: int
+var occupied_slot_count: int
 
 var focused_slot: Slot
 var focused_item: Item
@@ -35,11 +37,11 @@ func _process(_delta):
 
 		
 func _on_mouse_entered_slotgrid():
-	emit_signal("mouse_entered_slotgrid", self)
+	mouse_entered_slotgrid.emit(self)
 	
 	
 func _on_mouse_exited_slotgrid():
-	emit_signal("mouse_exited_slotgrid", self)
+	mouse_exited_slotgrid.emit(self)
 		
 
 func sync():
@@ -63,6 +65,7 @@ func setup_scene():
 
 func create_slotgrid(_geometry: Vector2i):
 	add_space_to_slotgrid(_geometry)
+	total_slot_count = geometry[0] * geometry[1]
 	
 	
 func add_space_to_slotgrid(cols_rows: Vector2i):
@@ -78,7 +81,7 @@ func add_space_to_slotgrid(cols_rows: Vector2i):
 		add_column_to_slotgrid()
 		
 	sync()
-	emit_signal("slotgrid_geometry_changed", self)
+	slotgrid_geometry_changed.emit(self)
 	
 	
 func add_row_to_slotgrid():
@@ -86,8 +89,7 @@ func add_row_to_slotgrid():
 	slotgrid_container.add_child(row_container)
 	
 	row_container.columns = max(1, get_slotgrid_columns())
-	row_container.add_theme_constant_override("h_separation", 0)
-	row_container.add_theme_constant_override("v_separation", 0)
+	row_container.add_theme_constant_override("h_separation", 1)
 	
 	for col in range(0, get_slotgrid_columns()):
 		var slot = slot_scene.instantiate()
@@ -121,7 +123,7 @@ func remove_space_from_slotgrid(cols_rows: Vector2i):
 		remove_column_from_slotgrid()
 	
 	sync()
-	emit_signal("slotgrid_geometry_changed", self)
+	slotgrid_geometry_changed.emit(self)
 
 	
 func remove_row_from_slotgrid():
@@ -216,7 +218,7 @@ func place_item(item: Item, origin_slot: Slot, slots_under_item: Array[Slot]):
 
 	item_container.add_child(item)
 	
-	origin_slot.emit_signal("mouse_entered_slot", origin_slot)
+	origin_slot.mouse_entered_slot.emit(origin_slot)
 	
 	
 func pick_item(from_slot: Slot) -> Item:
@@ -229,7 +231,7 @@ func pick_item(from_slot: Slot) -> Item:
 		slot.remove_stored_item()
 	
 	item_container.remove_child(item)	
-	from_slot.emit_signal("mouse_entered_slot", from_slot)
+	from_slot.mouse_entered_slot.emit(from_slot)
 	return item
 
 

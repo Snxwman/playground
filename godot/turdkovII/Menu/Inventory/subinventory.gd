@@ -44,4 +44,4 @@ func setup_scene(item: Item):
 
 func _on_close_window_pressed():
 	get_viewport().set_input_as_handled()
-	emit_signal("close_subinventory")	
+	close_subinventory.emit()

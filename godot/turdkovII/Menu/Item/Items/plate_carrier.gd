@@ -1,4 +1,4 @@
-extends Node
+class_name PlateCarrier extends Node
 
 const internal_slotgrid_geometry = (
 [
@@ -26,3 +26,4 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+	

@@ -15,6 +15,18 @@ const HEADER_HEIGHT = 40
 @onready var container_name_label = $VBoxContainer/MarginContainer/HBoxContainer/ItemName
 @onready var slotgrid_container = $VBoxContainer/SlotgridContainer
 
+var window_ribbon_hovered: bool
+var dragging: bool
+
+
+func _input(event):
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		dragging = true if event.pressed else false
+			
+	if event is InputEventMouseMotion:
+		if dragging:
+			global_position = get_global_mouse_position()
+
 
 func _ready():
 	pass # Replace with function body.
@@ -74,3 +86,11 @@ func setup_scene(item: Item):
 func _on_close_window_pressed():
 	get_viewport().set_input_as_handled()
 	emit_signal("close_subinventory")	
+
+
+func _on_mouse_entered_window_ribon():
+	window_ribbon_hovered = true
+	
+
+func _on_mouse_exited_window_ribon():
+	window_ribbon_hovered = false

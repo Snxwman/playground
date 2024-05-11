@@ -143,6 +143,11 @@ func open_subinventory(item: Item):
 	item.open_subinventory()
 	register_new_slotgrid(item.get_subinventory_slotgrid())
 
+
+func close_subinventory(item: Item):
+	subinventory_container.remove_child(item)
+	item.subinventory_container.add_child(item)
+
 	
 func register_new_slotgrid(slotgrid: Slotgrid):
 	if not registered_slotgrids.has(slotgrid):

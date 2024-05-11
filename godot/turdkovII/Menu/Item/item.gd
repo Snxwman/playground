@@ -53,6 +53,8 @@ var subinventory_open: bool = false
 var subinventory_geometry = null
 var item_info_open: bool = false
 
+var subinventory_sgc: SubinventorySGC
+
 var mouse_inside_item: bool = false
 var mouse_inside_slot: Slot
 
@@ -65,11 +67,11 @@ func _input(event):
 		#for slot in occupied_slots:
 			#if slot.get_global_rect().has_point(event.position) and slot != mouse_inside_slot:
 				#mouse_inside_slot = slot
-				#slot.emit_signal("mouse_entered_slot", slot)
+				#slot.mouse_entered_slot.emit(slot)
 	
 	if event.is_action_pressed("rotate") and selected:
 		rotate_scene()
-		emit_signal("item_rotated")
+		item_rotated.emit()
 	elif event.is_action_pressed("close_window"):
 		close_subinventory()
 		
@@ -209,7 +211,7 @@ func rotate_scene():
 		item_interior.position = Vector2i(0, 0)
 		item_border.position = Vector2i(0, 0)
 		
-	emit_signal("item_rotated", self)
+	item_rotated.emit(self)
 
 
 func get_slot_width():
@@ -265,7 +267,7 @@ func open_subinventory():
 		subinventory.close_subinventory.connect(close_subinventory)
 		
 		return subinventory.slotgrid_container.get_child(0)
-
+	
 		
 func close_subinventory():
 	subinventory_container.visible = false
