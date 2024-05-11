@@ -5,7 +5,7 @@ signal item_rotated(item)
 const DEG_90 = deg_to_rad(90)
 
 const INSURED_COLOR = Color("04acec", 0.9)
-const DEFAULT_BORDER_COLOR = Color("#cccccc", 0.9)
+const DEFAULT_BORDER_COLOR = Color("#8C9BAB", 0.9)
 const BORDER_OFFSET = 2
 
 @onready var slotgrid_scene = preload("res://Menu/Inventory/Slotgrid/slot.tscn")

@@ -10,9 +10,9 @@ signal mouse_ended_drag_on_slot(slot)
 static var DEFAULT_SLOT_SIZE_PX := 64
 
 const COLOR_CLEAR := Color(Color.BLACK, 0.0)
-const COLOR_CAN_PLACE := Color(Color.DARK_GREEN, 0.2)
+const COLOR_CAN_PLACE := Color("#164B35", 0.3)
 const COLOR_CAN_PLACE_PARTIAL := Color(Color.DARK_GOLDENROD, 0.2)
-const COLOR_CANT_PLACE := Color(Color.DARK_RED, 0.2)
+const COLOR_CANT_PLACE := Color("#5D1F1A", 0.3)
 
 @onready var root_node = $"."
 @onready var border_node = $Border

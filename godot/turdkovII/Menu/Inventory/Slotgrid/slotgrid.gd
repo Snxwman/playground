@@ -25,8 +25,8 @@ var focused_item: Item
 var selected_slots: Array[Slot]
 var selected_items: Array[Item]
 
-var items_in_slotgrid: Array[Item]
-var value_of_items_in_slotgrid: int
+var items_in_slotgrid: Array[Item] = []
+var value_of_items_in_slotgrid: int = 0
 
 func _ready():
 	pass
@@ -53,7 +53,7 @@ func sync():
 func sync_ui():
 	pass
 	
-	
+# TODO	
 func sync_world():
 	pass
 	
@@ -218,6 +218,12 @@ func place_item(item: Item, origin_slot: Slot, slots_under_item: Array[Slot]):
 
 	item_container.add_child(item)
 	
+	items_in_slotgrid.append(item)
+	occupied_slot_count += item.get_slot_width() * item.get_slot_height()
+	value_of_items_in_slotgrid += item.trade_value
+	print("Item added, now using ", occupied_slot_count, "/", total_slot_count, " slots")
+	print("Stash total worth: ", value_of_items_in_slotgrid, "(+", item.trade_value, ")")
+	
 	origin_slot.mouse_entered_slot.emit(origin_slot)
 	
 	
@@ -231,6 +237,13 @@ func pick_item(from_slot: Slot) -> Item:
 		slot.remove_stored_item()
 	
 	item_container.remove_child(item)	
+	
+	items_in_slotgrid.remove_at(items_in_slotgrid.find(item))
+	occupied_slot_count -= item.get_slot_width() * item.get_slot_height()
+	value_of_items_in_slotgrid -= item.trade_value
+	print("Item added, now using ", occupied_slot_count, "/", total_slot_count, " slots")
+	print("Stash total worth: ", value_of_items_in_slotgrid, " (+", item.trade_value, ")")
+	
 	from_slot.mouse_entered_slot.emit(from_slot)
 	return item
 
@@ -245,6 +258,7 @@ func get_all_slots() -> Array[Slot]:
 	return slots
 
 
+# TODO
 func get_items_in_slotgrid() -> Array[Item]:
 	var items: Array[Item] = []
 	return items

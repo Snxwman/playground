@@ -14,7 +14,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 2
-color = Color(0.121569, 0.12549, 0.215686, 1)
+color = Color(0.0862745, 0.101961, 0.113725, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="Border"]
 layout_mode = 1
@@ -32,7 +32,7 @@ theme_override_constants/margin_bottom = 2
 [node name="Background" type="ColorRect" parent="Border/MarginContainer"]
 layout_mode = 2
 mouse_filter = 2
-color = Color(0.121569, 0.12549, 0.215686, 1)
+color = Color(0.0862745, 0.101961, 0.113725, 1)
 
 [node name="Highlight" type="ColorRect" parent="."]
 layout_mode = 2

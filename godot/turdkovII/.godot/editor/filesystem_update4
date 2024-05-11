@@ -1,14 +1,9 @@
 res://Menu/menu.tscn
+res://Menu/Inventory/Slotgrid/slotgrid.gd
 res://Menu/Inventory/stash_screen.tscn
 res://Menu/Inventory/stash.tscn
 res://Menu/Inventory/Slotgrid/sgc_stash.tscn
 res://Menu/Inventory/Slotgrid/slotgrid.tscn
 res://Menu/Item/item.tscn
 res://Menu/Inventory/subinventory.tscn
-res://Menu/Inventory/Slotgrid/sgc_subinventory.gd
-res://Menu/Inventory/Slotgrid/sgc_subinventory.tscn
-res://Menu/Item/item.gd
-res://Menu/menu.gd
 res://Menu/Inventory/Slotgrid/slot.tscn
-res://Menu/Inventory/Slotgrid/slotgrid.gd
-res://Menu/Item/item_resource.gd
